@@ -70,7 +70,10 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
     <paper-toolbar id="mainToolbar">
       <!-- Application name -->
       <div class="app-name">
+      <!--
         <a href="/home"><img class="logo" src="../images/nuxeo_logo-km.png"></a>
+        -->
+        <a href="/home"><img class="logo" src="[[logoForUser]]"></a>
       </div>
       <paper-tabs class="headerMenu" selected="{{page}}" attr-for-selected="name">
         <paper-tab name="home">Home</paper-tab>
@@ -124,6 +127,10 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
           type: String,
           notify: true,
           value: 'Menu'
+        },
+        logoForUser: {
+          type: String,
+          value: ''
         }
       },
 
@@ -150,6 +157,8 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
         pdp.togglePanel();
       },
       _setUserLabel: function () {
+        var groups;
+
         if (this.currentUser) {
           this.currentUserLabel = '';
           if (this.currentUser.properties.firstName) {
@@ -160,6 +169,17 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
           }
           if (this.currentUserLabel === '') {
             this.currentUserLabel = this.currentUser.id;
+          }
+
+          // WARNING Group names are case sensitive.
+          // Any change in Studio project must be reflected here
+          groups = this.currentUser.properties.groups;
+          if(groups.indexOf("IBM") > -1) {
+            this.logoForUser = "../images/IBM_logo.png";
+          } else if(groups.indexOf("Cisco") > -1) {
+            this.logoForUser = "../images/Cisco-logo-blue.png";
+          } else {
+            this.logoForUser = "";
           }
         }
       }
