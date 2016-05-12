@@ -87,7 +87,7 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
         <section class="headerMenu">
           <paper-menu-button>
             <paper-button class="dropdown-trigger">
-              <span>{{_getRegionLabel(region)}}</span>
+              <span>{{region}}</span>
             </paper-button>
             <paper-menu class="dropdown-content" attr-for-selected="name" selected={{region}}>
               <paper-item name="Cisco">Cisco</paper-item>
@@ -138,13 +138,7 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
         //When component is ready.
 
       },
-      _getRegionLabel: function (region) {
-        if (region === '') {
-          return 'Channel';
-        } else {
-          return region;
-        }
-      },
+      
       _isHomeTab: function (page) {
         if (page === 'home') {
           return true;
@@ -175,10 +169,13 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
           // Any change in Studio project must be reflected here
           groups = this.currentUser.properties.groups;
           if(groups.indexOf("IBM") > -1) {
+            this.region = "IBM";
             this.logoForUser = "../images/IBM_logo.png";
           } else if(groups.indexOf("Cisco") > -1) {
+            this.region = "Cisco";
             this.logoForUser = "../images/Cisco-logo-blue.png";
           } else {
+            this.region = "";
             this.logoForUser = "";
           }
         }
