@@ -109,10 +109,10 @@ Example: <nuxeo-article-home></nuxeo-article-home>
 			ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted' [[_addRegionClause(region,'announcement')]] ORDER BY announcement:priorityCode">
       </nuxeo-article-home-announcement-widget>
 
-      <nuxeo-article-home-widget id="DrugDescription" class="blue-header" title="Drug Description Articles" color="green-card" query="SELECT * FROM
+      <nuxeo-article-home-widget id="DrugDescription" class="blue-header" title="Release Notes" color="green-card" query="SELECT * FROM
 			Article WHERE ecm:mixinType != 'HiddenInNavigation' AND ecm:isProxy = 0 AND
 			ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState = 'approved' AND
-			article:category='Drug Description' [[_addRegionClause(region,'article')]] ORDER BY dc:modified DESC">
+			article:category='Release Notes' [[_addRegionClause(region,'article')]] ORDER BY dc:modified DESC">
       </nuxeo-article-home-widget>
     </div>
 

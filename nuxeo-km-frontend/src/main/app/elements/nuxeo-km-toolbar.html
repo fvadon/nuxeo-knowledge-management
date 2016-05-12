@@ -87,12 +87,8 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
               <span>{{_getRegionLabel(region)}}</span>
             </paper-button>
             <paper-menu class="dropdown-content" attr-for-selected="name" selected={{region}}>
-              <paper-item name="Midatlantic">Midatlantic</paper-item>
-              <paper-item name="Midwest">Midwest</paper-item>
-              <paper-item name="Mountain">Mountain</paper-item>
-              <paper-item name="Northeast">Northeast</paper-item>
-              <paper-item name="Pacific">Pacific</paper-item>
-              <paper-item name="Southeast">Southeast</paper-item>
+              <paper-item name="Cisco">Cisco</paper-item>
+              <paper-item name="IBM">IBM</paper-item>
             </paper-menu>
           </paper-menu-button>
           <paper-button on-tap="_toggleDrawerParent">[[currentUserLabel]]</paper-button>
@@ -137,7 +133,7 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
       },
       _getRegionLabel: function (region) {
         if (region === '') {
-          return 'Region';
+          return 'Channel';
         } else {
           return region;
         }

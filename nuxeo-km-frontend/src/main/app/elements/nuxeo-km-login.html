@@ -79,17 +79,13 @@ Example: <nuxeo-km-login></nuxeo-km-login>
         <span class='app-title'>Nuxeo Knowledge Management</span>
       </div>
       <div class="card-container" class="red-header">
-        <paper-card heading="Select Your Region" elevation="0">
+        <paper-card heading="Select Your Channel" elevation="0">
           <div class="card-content">
             <form is="iron-form" id="formLogin" method="get" action="/" on-iron-form-submit="_login">
-              <paper-dropdown-menu label="Region" name="region" required>
+              <paper-dropdown-menu label="Channel" name="region" required>
                 <paper-menu class="dropdown-content" attr-for-selected="name" selected={{region}}>
-                  <paper-item name="Midatlantic">Midatlantic</paper-item>
-                  <paper-item name="Midwest">Midwest</paper-item>
-                  <paper-item name="Mountain">Mountain</paper-item>
-                  <paper-item name="Northeast">Northeast</paper-item>
-                  <paper-item name="Pacific">Pacific</paper-item>
-                  <paper-item name="Southeast">Southeast</paper-item>
+                  <paper-item name="Cisco">Cisco</paper-item>
+                  <paper-item name="IBM">IBM</paper-item>
                 </paper-menu>
               </paper-dropdown-menu>
               <paper-button raised on-tap="_submitHandler">Submit</paper-button>
