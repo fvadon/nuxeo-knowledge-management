@@ -124,6 +124,19 @@ Example: <nuxeo-article-display></nuxeo-article-display>
       paper-button.feedbackButton {
         background: #ffffff;
       }
+
+      a.downloadPDFlink {
+        font: inherit;
+      }
+
+      a.downloadPDFlink:link {
+        color: var(--primary-font-color);
+      }
+
+      a.downloadPDFlink:visited {
+        color: var(--primary-font-color);
+      }
+
     </style>
     <template is="dom-if" if="[[_isDefined(documentId)]]">
       <nuxeo-document auto id="documentGetter" doc-id=[[documentId]] response="{{nuxeoDocument}}"></nuxeo-document>
@@ -135,9 +148,7 @@ Example: <nuxeo-article-display></nuxeo-article-display>
         <h1>[[nuxeoDocument.title]]</h1>
         <template is="dom-if" if="[[_isArticle(nuxeoDocument)]]">
           <div class="documentCatego">[[nuxeoDocument.properties.article:category]]</div>
-          <template is="dom-repeat" items="[[nuxeoDocument.properties.article:region]]">
-            <div class="documentRegion">[[item]]</div>
-          </template>
+
           <div class="documentInfo">Updated: [[_dateFormat(nuxeoDocument.properties.dc:modified)]]</div>
           <div class="documentInfo">[[_wordsTominutes(nuxeoDocument.properties.article:plainTextContent)]]</div>
           <div class="documentContent" inner-h-t-m-l="{{nuxeoDocument.properties.note:note}}"></div>
@@ -169,6 +180,9 @@ Example: <nuxeo-article-display></nuxeo-article-display>
       <template is="dom-if" if="[[mustRead]]">
         <paper-button class="mustread" raised on-tap="_confirmRead">I Have Read This</paper-button>
       </template>
+      <a href="{{downloadPDFlink}}" class="downloadPDFlink" rel="external">
+        <paper-button class="feedbackButton" raised >Download PDF</paper-button>
+      </a>
       <paper-button class="feedbackButton" raised on-tap="_openFeedback">Give Feedback</paper-button>
     </paper-card>
 
@@ -223,16 +237,44 @@ Example: <nuxeo-article-display></nuxeo-article-display>
           type: Object,
           notify: true,
           observer: '_ReadResponseReceived'
+        },
+        region:{
+          type: String,
+          notify: true,
+          observer: '_trimRegion'
+        },
+        downloadPDFlink: {
+          type:String,
+          notify: true,
         }
 
       },
       observers: [
-        '_setMustRead(userforarticle, nuxeoDocument)'
+        '_setMustRead(userforarticle, nuxeoDocument)',
+        'traceDoc(region, nuxeoDocument)'
       ],
-
+      traceDoc: function() {
+        //console.log(region);
+        if (this.region && this.nuxeoDocument) {
+          //  this.region = this.region.replace('/', '');
+          this.downloadPDFlink = ('http://optanix.cloud.nuxeo.com/nuxeo/nxtemplate/default'+this.nuxeoDocument.path+'@Release%20Notes%20'+this.region).replace(' ','%20');
+          console.log(this.region);
+          console.log(('http://optanix.cloud.nuxeo.com/nuxeo/nxtemplate/default'+this.nuxeoDocument.path+'@Release%20Notes%20'+this.region).replace(' ','%20'));
+          return this.region;
+        }
+      },
+      _trimRegion: function () {
+        if (this.region && this.nuxeoDocument) {
+          this.region = this.region.replace('/', '');
+          //this.downloadPDFlink = ('http://optanix.cloud.nuxeo.com/nuxeo/nxtemplate/default'+this.nuxeoDocument.path+'@Release%20Notes%20'+this.region).replace(' ','%20');
+          //console.log(this.region);
+          //console.log(('http://optanix.cloud.nuxeo.com/nuxeo/nxtemplate/default'+this.nuxeoDocument.path+'@Release%20Notes%20'+this.region).replace(' ','%20'));
+          return this.region;
+        }
+      },
       ready: function () {
         //When component is ready.
-        //console.log("--search result ready")
+
       },
       _isDefined: function (documentId) {
         if ((typeof documentId !== 'undefined') && (documentId !== '/')) {
