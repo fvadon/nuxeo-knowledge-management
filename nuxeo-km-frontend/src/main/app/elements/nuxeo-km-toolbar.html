@@ -23,7 +23,9 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
   <template>
     <style is="custom-style">
       paper-toolbar {
-        background: var(--paper-menu-background-color);
+        background-color: var(--app-toolbar-background-color);
+        background: var(--app-toolbar-background-wk);
+        background: var(--app-toolbar-background-moz);
       }
 
       .logo {
@@ -33,13 +35,13 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
       }
 
       .headerMenu {
-        color: var(--primary-title-color);
+        color: var(--app-toolbar-color);
         font-size: 140%;
         vertical-align: bottom;
       }
 
       .app-name {
-        color: var(--primary-title-color);
+        color: var(--app-toolbar-color);
         font-size: 180%;
         display: table-cell;
         vertical-align: middle;
@@ -150,6 +152,7 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
         var pdp = document.getElementById('drawerPanel');
         pdp.togglePanel();
       },
+
       _setUserLabel: function () {
         var groups;
 
@@ -170,20 +173,55 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
           groups = this.currentUser.properties.groups;
           if(groups.indexOf("IBM") > -1) {
             this.region = "IBM";
-            this.logoForUser = "../images/IBM_logo.png";
           } else if(groups.indexOf("Cisco") > -1) {
             this.region = "Cisco";
-            this.logoForUser = "../images/Cisco-logo-blue.png";
           } else {
             this.region = "";
-            this.logoForUser = "";
           }
-          // Adjut for localhost testing with gulp vs demo server and embedded plug-in
-          if(window.location.host.indexOf("localhost") < 0) {
-            this.logoForUser.replace("..", window.location.origin + "/nuxeo/km")
-          }
-
+          this.setupTheStyles();
         }
+      },
+
+      setupTheStyles : function() {
+        var bgColor = null,
+            bgWK, bgMoz,
+            color,
+            logoPath = "";
+
+        switch (this.region) {
+          case "IBM":
+            logoPath = "../images/IBM-logo-black.png";
+            bgColor = "#fff";
+            bgWK = "#fff";
+            bgMoz = "#fff";
+            color = "#323232";
+            break;
+
+          case "Cisco":
+            logoPath = "../images/Cisco-logo-white.png";
+            bgColor = "#3c6aa1";
+            bgWK = "-webkit-linear-gradient(top, #4d80af 0, #2b5593 100%);";
+            bgMoz = "moz-linear-gradient(top, #4d80af 0, #2b5593 100%);";
+            color = "white";
+            break;
+
+          default:
+            break;
+        }
+
+        // Adjut for localhost testing with gulp vs demo server and embedded plug-in
+        if(window.location.host.indexOf("localhost") < 0) {
+          logoPath = logoPath.replace("..", window.location.origin + "/nuxeo/km");
+        }
+        this.logoForUser = logoPath;
+
+        if(bgColor !== null) {
+            this.customStyle['--app-toolbar-background-color'] = bgColor;
+            this.customStyle['--app-toolbar-background-wk'] = bgWK;
+            this.customStyle['--app-toolbar-background-moz'] = bgMoz;
+            this.customStyle['--app-toolbar-color'] = color;
+            this.updateStyles();
+          }
       }
 
     });
