@@ -138,7 +138,7 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
         //When component is ready.
 
       },
-      
+
       _isHomeTab: function (page) {
         if (page === 'home') {
           return true;
@@ -178,6 +178,11 @@ Example: <nuxeo-km-toolbar page={{page}} region={{region}} base-url=[[baseUrl]]>
             this.region = "";
             this.logoForUser = "";
           }
+          // Adjut for localhost testing with gulp vs demo server and embedded plug-in
+          if(window.location.host.indexOf("localhost") < 0) {
+            this.logoForUser.replace("..", window.location.origin + "/nuxeo/km")
+          }
+
         }
       }
 
